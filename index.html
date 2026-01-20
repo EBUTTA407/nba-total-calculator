@@ -145,22 +145,22 @@
         <div class="row" style="margin-top:10px">
           <div>
             <label>Home points</label>
-            <input id="homePts" type="number" step="1" value="43" />
+            <input id="homePts" type="number" step="1" value="0" />
           </div>
           <div>
             <label>Away points</label>
-            <input id="awayPts" type="number" step="1" value="37" />
+            <input id="awayPts" type="number" step="1" value="0" />
           </div>
         </div>
 
         <div class="row" style="margin-top:10px">
           <div>
             <label>Computed total (auto)</label>
-            <input id="pts" type="number" step="1" value="80" disabled />
+            <input id="pts" type="number" step="1" value="0" disabled />
           </div>
           <div>
             <label>Current live total (market)</label>
-            <input id="live" type="number" step="0.5" value="224.5" />
+            <input id="live" type="number" step="0.5" value="0" />
           </div>
         </div>
 
@@ -174,6 +174,31 @@
             <input id="awayLine" type="number" step="0.5" placeholder="optional" />
           </div>
         </div>
+
+        <!-- ✅ AUTO-FILL BLOCK -->
+        <div class="hr"></div>
+        <h2>Auto-Fill (OddsAPI + ESPN)</h2>
+
+        <div class="row">
+          <div>
+            <label>Worker URL (Cloudflare)</label>
+            <input id="apiBase" value="https://nba-total-autofill-proxy.ebuttta407.workers.dev" />
+          </div>
+          <div>
+            <label>Game</label>
+            <select id="gameSel"></select>
+          </div>
+        </div>
+
+        <div class="btns" style="margin-top:10px">
+          <button id="apiRefresh" class="secondary">Refresh games</button>
+          <button id="apiFillAll" class="secondary">Fill score + quarter + clock + total</button>
+        </div>
+
+        <p class="small" style="margin-top:8px">
+          Notes: For pregame games, we fill totals only. Quarter/clock fill only when ESPN marks game as in-progress.
+        </p>
+        <!-- ✅ END AUTO-FILL BLOCK -->
 
         <div class="hr"></div>
 
@@ -495,9 +520,9 @@
     const needPPM = (Number.isFinite(live) && valid) ? ((live - pts) / (48 - elapsed)) : NaN;
     const edge = (Number.isFinite(blendProj) && Number.isFinite(live)) ? (blendProj - live) : NaN;
 
-    // --- Home/Away projections: split blended total by current scoring share
+    // split blended total by current scoring share
     let homeProj = NaN, awayProj = NaN;
-    if (Number.isFinite(blendProj) && Number.isFinite(homePts) && Number.isFinite(awayPts) && (homePts + awayPts) > 0) {
+    if (Number.isFinite(blendProj) && (homePts + awayPts) > 0) {
       const shareHome = homePts / (homePts + awayPts);
       homeProj = blendProj * shareHome;
       awayProj = blendProj - homeProj;
@@ -514,7 +539,6 @@
 
     // flags
     const flags = [];
-
     if(bonus && (q <= 3) && Number.isFinite(tleftMin) && tleftMin > 6){
       flags.push({t:'Early bonus = foul risk', c:'bad'});
     } else if(bonus){
@@ -539,7 +563,7 @@
 
     if(otOn) flags.push({t:`OT adj +${fmt(otAdj,1)} pts`, c:'warn'});
 
-    // Game lean
+    // game lean
     let lean = 'PASS / WAIT';
     let leanClass = 'warn';
     let why = 'Enter valid game state inputs.';
@@ -569,7 +593,7 @@
       }
     }
 
-    // write outputs
+    // outputs
     $('stamp').textContent = nowStamp();
     $('elapsed').textContent = valid ? `${fmt(elapsed,2)} min` : '—';
     $('alphaUsed').textContent = `Alpha used: ${fmt(alpha,2)}${alphaIsManual ? ' (manual)' : ' (auto)'}`;
@@ -616,10 +640,10 @@
 
     hedgeCalc({liveTotal: live, flags});
 
-    // auto-snapshot
     if($('autoSnap').checked){
       snapshot({
-        q, tleft, homePts, awayPts, live, homeLine: Number.isFinite(homeLine)?homeLine:'', awayLine: Number.isFinite(awayLine)?awayLine:'',
+        q, tleft, homePts, awayPts, live,
+        homeLine: Number.isFinite(homeLine)?homeLine:'', awayLine: Number.isFinite(awayLine)?awayLine:'',
         blendProj, edge, lean: ((lean === 'PASS / WAIT') ? 'PASS' : lean.replace('LEAN: ',''))
       });
     }
@@ -775,14 +799,84 @@
     compute();
   }
 
+  // ---------- Auto-Fill (Worker) ----------
+  async function apiGet(path){
+    const base = document.getElementById('apiBase').value.trim().replace(/\/+$/,'');
+    if(!base) throw new Error("Worker URL is blank.");
+    const r = await fetch(base + path);
+    const txt = await r.text();
+    if(!r.ok) throw new Error(txt);
+    return JSON.parse(txt);
+  }
+
+  let lastApi = null;
+
+  function populateGames(games){
+    const sel = document.getElementById('gameSel');
+    sel.innerHTML = '';
+    for(const g of (games || [])){
+      const hs = Number.isFinite(g.scores?.home) ? g.scores.home : '—';
+      const as = Number.isFinite(g.scores?.away) ? g.scores.away : '—';
+      const p = Number.isFinite(g.period) && g.period > 0 ? `Q${g.period}` : '';
+      const c = (g.displayClock && String(g.displayClock).includes(':')) ? g.displayClock : '';
+      const total = Number.isFinite(g.totals_consensus) ? `Tot ${g.totals_consensus}` : '';
+      const opt = document.createElement('option');
+      opt.value = g.id;
+      opt.textContent = `${g.away_team} @ ${g.home_team}  (${as}-${hs}) ${p} ${c} ${total}`.trim();
+      sel.appendChild(opt);
+    }
+  }
+
+  document.getElementById('apiRefresh').addEventListener('click', async () => {
+    try{
+      lastApi = await apiGet('/nba/live');
+      populateGames(lastApi.games);
+    } catch(e){
+      alert("API Refresh error: " + e.message);
+    }
+  });
+
+  document.getElementById('apiFillAll').addEventListener('click', async () => {
+    try{
+      if(!lastApi) lastApi = await apiGet('/nba/live');
+      const id = document.getElementById('gameSel').value;
+      const g = (lastApi.games || []).find(x => x.id === id);
+      if(!g) return;
+
+      // Always fill total if available
+      if(Number.isFinite(g.totals_consensus)) document.getElementById('live').value = g.totals_consensus;
+
+      // Fill scores if ESPN has them
+      if(Number.isFinite(g.scores?.home)) document.getElementById('homePts').value = g.scores.home;
+      if(Number.isFinite(g.scores?.away)) document.getElementById('awayPts').value = g.scores.away;
+
+      // Only fill quarter+clock if in-progress and clock looks like mm:ss
+      if(g.state === "in" && Number.isFinite(g.period) && g.period >= 1 && g.displayClock && String(g.displayClock).includes(':')) {
+        const q = Math.max(1, Math.min(4, g.period)); // OT handled by OT toggle
+        document.getElementById('q').value = String(q);
+        document.getElementById('tleft').value = g.displayClock;
+      }
+
+      compute();
+    } catch(e){
+      alert("API Fill error: " + e.message);
+    }
+  });
+  // ---------- End Auto-Fill ----------
+
   $('calc').addEventListener('click', () => compute());
   $('snap').addEventListener('click', () => {
     const s = compute();
     snapshot({
-      q: s.q, tleft: s.tleft, homePts: Number($('homePts').value), awayPts: Number($('awayPts').value),
+      q: s.q,
+      tleft: s.tleft,
+      homePts: Number($('homePts').value),
+      awayPts: Number($('awayPts').value),
       live: Number($('live').value),
-      homeLine: Number($('homeLine').value), awayLine: Number($('awayLine').value),
-      blendProj: s.blendProj, edge: s.edge,
+      homeLine: Number($('homeLine').value),
+      awayLine: Number($('awayLine').value),
+      blendProj: s.blendProj,
+      edge: s.edge,
       lean: (s.lean === 'PASS / WAIT') ? 'PASS' : s.lean.replace('LEAN: ','')
     });
   });
@@ -803,10 +897,3 @@
 </script>
 </body>
 </html>
-
-  
-
-  
-    
-
-
