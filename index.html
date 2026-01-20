@@ -142,8 +142,29 @@
         </div>
         <div class="row" style="margin-top:10px">
           <div>
-            <label>Total points (both teams combined)</label>
-            <input id="pts" type="number" step="1" value="80" />
+            <div class="row" style="margin-top:10px">
+  <div>
+    <label>Home points</label>
+    <input id="homePts" type="number" step="1" value="43" />
+  </div>
+  <div>
+    <label>Away points</label>
+    <input id="awayPts" type="number" step="1" value="37" />
+  </div>
+</div>
+
+<div class="row" style="margin-top:10px">
+  <div>
+    <label>Computed total (auto)</label>
+    <input id="pts" type="number" step="1" value="80" disabled />
+  </div>
+  <div>
+    <label>Current live total (market)</label>
+    <input id="live" type="number" step="0.5" value="224.5" />
+  </div>
+</div>
+
+          
           </div>
           <div>
             <label>Current live total (market)</label>
