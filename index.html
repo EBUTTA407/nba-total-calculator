@@ -11,77 +11,33 @@
       --border:rgba(255,255,255,.08);
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      background:linear-gradient(180deg,#070b14, #0b1220 35%, #070b14);
-      color:var(--text)
-    }
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#070b14,#0b1220 35%,#070b14);color:var(--text)}
     .wrap{max-width:1100px;margin:0 auto;padding:22px}
     .top{display:flex;gap:14px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
     h1{font-size:20px;margin:0 0 2px 0;letter-spacing:.2px}
     .sub{color:var(--muted);font-size:12px;margin:0}
     .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:14px}
     @media(max-width:920px){.grid{grid-template-columns:1fr}}
-    .card{
-      background:rgba(18,27,47,.85);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px;
-      box-shadow:0 10px 26px rgba(0,0,0,.25)
-    }
+    .card{background:rgba(18,27,47,.85);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 10px 26px rgba(0,0,0,.25)}
     .card h2{font-size:14px;margin:0 0 10px 0;color:#d9e5ff}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media(max-width:520px){.row{grid-template-columns:1fr}}
     label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px 2px}
-    input,select{
-      width:100%;
-      padding:10px 11px;
-      border-radius:12px;
-      background:#0a1020;
-      border:1px solid var(--border);
-      color:var(--text);
-      outline:none
-    }
-    input:focus,select:focus{
-      border-color:rgba(106,169,255,.6);
-      box-shadow:0 0 0 3px rgba(106,169,255,.18)
-    }
-    .tog{
-      display:flex;align-items:center;gap:10px;
-      padding:10px 11px;border-radius:12px;
-      background:#0a1020;border:1px solid var(--border)
-    }
+    input,select{width:100%;padding:10px 11px;border-radius:12px;background:#0a1020;border:1px solid var(--border);color:var(--text);outline:none}
+    input:focus,select:focus{border-color:rgba(106,169,255,.6);box-shadow:0 0 0 3px rgba(106,169,255,.18)}
+    .tog{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:12px;background:#0a1020;border:1px solid var(--border)}
     .tog input{width:18px;height:18px}
     .tog span{font-size:13px;color:#dce7ff}
     .btns{display:flex;gap:10px;flex-wrap:wrap}
-    button{
-      cursor:pointer;
-      border:1px solid var(--border);
-      background:linear-gradient(180deg,rgba(106,169,255,.22),rgba(106,169,255,.08));
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:650
-    }
+    button{cursor:pointer;border:1px solid var(--border);background:linear-gradient(180deg,rgba(106,169,255,.22),rgba(106,169,255,.08));color:var(--text);padding:10px 12px;border-radius:12px;font-weight:650}
     button:hover{border-color:rgba(106,169,255,.55)}
     button.secondary{background:rgba(255,255,255,.04)}
     button.danger{background:linear-gradient(180deg,rgba(255,107,107,.22),rgba(255,107,107,.08))}
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 10px;border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      font-size:12px;color:var(--muted)
-    }
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.03);font-size:12px;color:var(--muted)}
     .pill b{color:var(--text)}
     .out{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media(max-width:620px){.out{grid-template-columns:1fr}}
-    .metric{
-      padding:12px;border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03)
-    }
+    .metric{padding:12px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.03)}
     .metric .k{font-size:11px;color:var(--muted)}
     .metric .v{font-size:20px;font-weight:780;margin-top:4px}
     .metric .s{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.25}
@@ -114,7 +70,7 @@
       <div>
         <h1>NBA Live Total Points Calculator</h1>
         <p class="sub">
-          Live pace + blended projection, whistle/FT flags, OT adjustment, hedge sizing, and snapshots.
+          Auto-fill: OddsAPI totals + ESPN scoreboard/boxscore.
           • <a href="nba_total_calc.py" download>Download terminal script (Python)</a>
         </p>
       </div>
@@ -122,7 +78,6 @@
     </div>
 
     <div class="grid">
-      <!-- INPUTS -->
       <div class="card">
         <h2>Live Inputs</h2>
 
@@ -131,14 +86,14 @@
             <label>Quarter</label>
             <select id="q">
               <option value="1">1</option>
-              <option value="2" selected>2</option>
+              <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
             </select>
           </div>
           <div>
             <label>Time left in quarter (mm:ss)</label>
-            <input id="tleft" value="7:10" placeholder="7:10" />
+            <input id="tleft" value="12:00" placeholder="7:10" />
           </div>
         </div>
 
@@ -159,7 +114,7 @@
             <input id="pts" type="number" step="1" value="0" disabled />
           </div>
           <div>
-            <label>Current live total (market)</label>
+            <label>Current market total</label>
             <input id="live" type="number" step="0.5" value="0" />
           </div>
         </div>
@@ -175,9 +130,8 @@
           </div>
         </div>
 
-        <!-- ✅ AUTO-FILL BLOCK -->
         <div class="hr"></div>
-        <h2>Auto-Fill (OddsAPI + ESPN)</h2>
+        <h2>Auto-Fill (Worker)</h2>
 
         <div class="row">
           <div>
@@ -192,20 +146,20 @@
 
         <div class="btns" style="margin-top:10px">
           <button id="apiRefresh" class="secondary">Refresh games</button>
-          <button id="apiFillAll" class="secondary">Fill score + quarter + clock + total</button>
+          <button id="apiFillAll" class="secondary">Fill totals + baseline + (live score/clock)</button>
+          <button id="apiStats" class="secondary">Fetch 3P% + FTA</button>
         </div>
 
         <p class="small" style="margin-top:8px">
-          Notes: For pregame games, we fill totals only. Quarter/clock fill only when ESPN marks game as in-progress.
+          Pregame: Fill sets Market total AND Baseline total to match. Live: Fill also sets score + quarter + clock.
         </p>
-        <!-- ✅ END AUTO-FILL BLOCK -->
 
         <div class="hr"></div>
 
         <div class="row">
           <div>
             <label>Pregame total (baseline)</label>
-            <input id="line" type="number" step="0.5" value="228.5" />
+            <input id="line" type="number" step="0.5" value="0" />
           </div>
           <div>
             <label>Edge threshold (pts) for bet lean</label>
@@ -237,36 +191,12 @@
 
         <div class="row" style="margin-top:10px">
           <div>
-            <label>FTA so far (both teams) — optional</label>
+            <label>FTA so far (both teams)</label>
             <input id="fta" type="number" step="1" placeholder="optional" />
           </div>
           <div>
-            <label>3P% so far — optional (e.g., 0.42)</label>
-            <input id="tpct" type="number" step="0.01" placeholder="optional" />
-          </div>
-        </div>
-
-        <div class="hr"></div>
-
-        <h2>Overtime Adjustment</h2>
-        <div class="row">
-          <div class="tog">
-            <input id="ot" type="checkbox" />
-            <span>Include OT risk in projection</span>
-          </div>
-          <div>
-            <label>OT probability %</label>
-            <input id="otp" type="number" step="0.5" value="6" />
-          </div>
-        </div>
-        <div class="row" style="margin-top:10px">
-          <div>
-            <label>Expected OT points (combined)</label>
-            <input id="otpts" type="number" step="1" value="10" />
-          </div>
-          <div class="tog">
-            <input id="autoSnap" type="checkbox" />
-            <span>Auto-snapshot on Calculate</span>
+            <label>3P% so far (combined, 0–1)</label>
+            <input id="tpct" type="number" step="0.01" placeholder="e.g. 0.42" />
           </div>
         </div>
 
@@ -274,16 +204,9 @@
 
         <div class="btns">
           <button id="calc">Calculate</button>
-          <button id="snap" class="secondary">Snapshot</button>
-          <button id="reset" class="danger">Reset</button>
         </div>
-
-        <p class="small" style="margin-top:10px">
-          Tip: leave Alpha blank (auto). Turn on Bonus/FT parade when refs get whistle-happy.
-        </p>
       </div>
 
-      <!-- OUTPUTS -->
       <div class="card">
         <h2>Outputs</h2>
 
@@ -296,35 +219,18 @@
           <div class="metric">
             <div class="k">Current pace (pts/min)</div>
             <div class="v mono" id="ppm">—</div>
-            <div class="s" id="needppm">Needed for market: —</div>
+            <div class="s" id="needppm">Needed: —</div>
           </div>
           <div class="metric">
-            <div class="k">Pace projection (no reversion)</div>
+            <div class="k">Pace projection</div>
             <div class="v mono" id="paceProj">—</div>
             <div class="s">Pure pace extrapolation.</div>
           </div>
           <div class="metric">
-            <div class="k">Blended projection (recommended)</div>
+            <div class="k">Blended projection</div>
             <div class="v mono" id="blendProj">—</div>
-            <div class="s" id="edge">Edge vs live: —</div>
+            <div class="s" id="edge">Edge vs market: —</div>
           </div>
-        </div>
-
-        <div class="out" style="margin-top:10px">
-          <div class="metric">
-            <div class="k">Home projected final</div>
-            <div class="v mono" id="homeProj">—</div>
-            <div class="s" id="homeEdge">Home edge vs team total: —</div>
-          </div>
-          <div class="metric">
-            <div class="k">Away projected final</div>
-            <div class="v mono" id="awayProj">—</div>
-            <div class="s" id="awayEdge">Away edge vs team total: —</div>
-          </div>
-        </div>
-
-        <div class="small" style="margin-top:8px" id="teamLeans">
-          Home team total lean: — • Away team total lean: —
         </div>
 
         <div style="margin-top:10px" id="leanBox" class="lean warn">
@@ -332,103 +238,8 @@
           <div class="small" id="why">—</div>
           <div class="flags" id="flags"></div>
         </div>
-
-        <div class="hr"></div>
-
-        <h2>Hedge Calculator (Totals)</h2>
-        <div class="two">
-          <div>
-            <div class="row">
-              <div>
-                <label>My bet side</label>
-                <select id="mySide">
-                  <option value="UNDER" selected>UNDER</option>
-                  <option value="OVER">OVER</option>
-                </select>
-              </div>
-              <div>
-                <label>My bet line</label>
-                <input id="myLine" type="number" step="0.5" value="228.5" />
-              </div>
-            </div>
-            <div class="row" style="margin-top:10px">
-              <div>
-                <label>My stake ($)</label>
-                <input id="myStake" type="number" step="1" value="100" />
-              </div>
-              <div>
-                <label>My odds (American)</label>
-                <input id="myOdds" type="number" step="1" value="-110" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="row">
-              <div>
-                <label>Hedge line (defaults to live total)</label>
-                <input id="hedgeLine" type="number" step="0.5" placeholder="auto" />
-              </div>
-              <div>
-                <label>Hedge odds (American)</label>
-                <input id="hedgeOdds" type="number" step="1" value="-110" />
-              </div>
-            </div>
-            <div class="row" style="margin-top:10px">
-              <div>
-                <label>Hedge suggestion</label>
-                <input id="hedgeNow" disabled />
-              </div>
-              <div>
-                <label>Recommended hedge stake ($)</label>
-                <input id="hedgeStake" disabled />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="small" id="hedgeExplain">Enter your ticket info to see an equalized hedge stake + middle range (if applicable).</div>
-
-        <div class="hr"></div>
-
-        <h2>Snapshots</h2>
-        <div class="small">
-          Saves the current state each time you hit Snapshot (or auto-snapshot on Calculate if enabled).
-        </div>
-
-        <div class="btns" style="margin-top:10px">
-          <button id="exportCsv" class="secondary">Download snapshots CSV</button>
-        </div>
-
-        <div style="overflow:auto; margin-top:8px">
-          <table id="log">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th class="right">Q</th>
-                <th class="right">T Left</th>
-                <th class="right">Home</th>
-                <th class="right">Away</th>
-                <th class="right">Live</th>
-                <th class="right">HomeLine</th>
-                <th class="right">AwayLine</th>
-                <th class="right">Blend</th>
-                <th class="right">Edge</th>
-                <th>Lean</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-
       </div>
     </div>
-
-    <p class="small" style="margin-top:14px">
-      Disclaimer: Math/pace decision support only; doesn’t know injuries/rotations/true market depth. Use responsibly.
-    </p>
   </div>
 
 <script>
@@ -439,7 +250,6 @@
     const d = new Date();
     return d.toLocaleString(undefined,{hour:'2-digit',minute:'2-digit',second:'2-digit',year:'numeric',month:'short',day:'2-digit'});
   }
-
   function parseMMSS(s){
     if(!s) return NaN;
     const m = String(s).trim().split(':');
@@ -449,33 +259,26 @@
     if(!Number.isFinite(mm) || !Number.isFinite(ss)) return NaN;
     return mm + ss/60;
   }
-
-  function decFromAmerican(am){
-    const a = Number(am);
-    if(!Number.isFinite(a) || a === 0) return NaN;
-    if(a < 0) return 1 + (100/Math.abs(a));
-    return 1 + (a/100);
-  }
-
   function autoAlpha(elapsed){
     return clamp(0.35 + 0.012*elapsed, 0.35, 0.90);
   }
-
   function fmt(x, d=1){
     if(!Number.isFinite(x)) return '—';
     return x.toFixed(d);
   }
-
-  function teamLean(edge, thr){
-    if(!Number.isFinite(edge) || !Number.isFinite(thr)) return "—";
-    if(edge >= thr) return "OVER";
-    if(edge <= -thr) return "UNDER";
-    return "PASS";
+  function optNum(id){
+    const s = String($(id).value ?? '').trim();
+    if(s === '') return NaN;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : NaN;
   }
 
   function compute(){
+    $('stamp').textContent = nowStamp();
+
     const q = Number($('q').value);
-    const tleft = $('tleft').value;
+    const tleftMin = parseMMSS($('tleft').value);
+    const elapsed = (q-1)*12 + (12 - tleftMin);
 
     const homePts = Number($('homePts').value);
     const awayPts = Number($('awayPts').value);
@@ -486,67 +289,46 @@
     const line = Number($('line').value);
     const thr = Number($('thr').value);
 
-    const tleftMin = parseMMSS(tleft);
-    const elapsed = (q-1)*12 + (12 - tleftMin);
-
-    const valid = (Number.isFinite(elapsed) && elapsed > 0 && elapsed <= 48 &&
-                  Number.isFinite(homePts) && homePts >= 0 &&
-                  Number.isFinite(awayPts) && awayPts >= 0);
-
-    let alpha = Number($('alpha').value);
+    let alpha = optNum('alpha');
     const alphaIsManual = Number.isFinite(alpha);
     if(!alphaIsManual) alpha = autoAlpha(elapsed);
     alpha = clamp(alpha, 0.05, 0.95);
 
     const bonus = $('bonus').checked;
     const ftparade = $('ftparade').checked;
-    const bonusBoost = Number($('bonusBoost').value);
-    const boost = (bonus ? (Number.isFinite(bonusBoost)? bonusBoost : 0.25) : 0) + (ftparade ? 0.35 : 0);
+    const bonusBoost = Number.isFinite(optNum('bonusBoost')) ? optNum('bonusBoost') : 0.25;
+    const boost = (bonus ? bonusBoost : 0) + (ftparade ? 0.35 : 0);
+
+    const valid = Number.isFinite(elapsed) && elapsed > 0 && elapsed <= 48 && Number.isFinite(homePts) && homePts >= 0 && Number.isFinite(awayPts) && awayPts >= 0;
 
     const ppm = valid ? pts/elapsed : NaN;
     const paceProj = valid ? ppm*48 : NaN;
 
     const baselineRate = (Number.isFinite(line) && line>0) ? line/48 : NaN;
     const blendedRate = (Number.isFinite(baselineRate) && valid) ? (alpha*(ppm + boost) + (1-alpha)*baselineRate) : NaN;
-    const blendProjRaw = (Number.isFinite(blendedRate) && valid) ? pts + blendedRate*(48 - elapsed) : NaN;
+    const blendProj = (Number.isFinite(blendedRate) && valid) ? (pts + blendedRate*(48 - elapsed)) : NaN;
 
-    const otOn = $('ot').checked;
-    const otp = Number($('otp').value);
-    const otpts = Number($('otpts').value);
-    const otAdj = (otOn && Number.isFinite(otp) && Number.isFinite(otpts)) ? (otp/100)*otpts : 0;
-
-    const blendProj = Number.isFinite(blendProjRaw) ? (blendProjRaw + otAdj) : NaN;
-
-    const needPPM = (Number.isFinite(live) && valid) ? ((live - pts) / (48 - elapsed)) : NaN;
     const edge = (Number.isFinite(blendProj) && Number.isFinite(live)) ? (blendProj - live) : NaN;
+    const needPPM = (Number.isFinite(live) && valid) ? ((live - pts) / (48 - elapsed)) : NaN;
 
-    // split blended total by current scoring share
-    let homeProj = NaN, awayProj = NaN;
-    if (Number.isFinite(blendProj) && (homePts + awayPts) > 0) {
-      const shareHome = homePts / (homePts + awayPts);
-      homeProj = blendProj * shareHome;
-      awayProj = blendProj - homeProj;
-    }
+    $('elapsed').textContent = valid ? `${fmt(elapsed,2)} min` : '—';
+    $('alphaUsed').textContent = `Alpha used: ${fmt(alpha,2)}${alphaIsManual ? ' (manual)' : ' (auto)'}`;
+    $('ppm').textContent = valid ? fmt(ppm,2) : '—';
+    $('needppm').textContent = Number.isFinite(needPPM) ? `Needed: ${fmt(needPPM,2)} pts/min` : 'Needed: —';
+    $('paceProj').textContent = Number.isFinite(paceProj) ? fmt(paceProj,1) : '—';
+    $('blendProj').textContent = Number.isFinite(blendProj) ? fmt(blendProj,1) : '—';
+    $('edge').textContent = Number.isFinite(edge) ? `Edge vs market: ${fmt(edge,1)} pts` : 'Edge vs market: —';
 
-    const homeLine = Number($('homeLine').value);
-    const awayLine = Number($('awayLine').value);
-
-    const homeEdgeVal = (Number.isFinite(homeProj) && Number.isFinite(homeLine)) ? (homeProj - homeLine) : NaN;
-    const awayEdgeVal = (Number.isFinite(awayProj) && Number.isFinite(awayLine)) ? (awayProj - awayLine) : NaN;
-
-    const homeLean = teamLean(homeEdgeVal, thr);
-    const awayLean = teamLean(awayEdgeVal, thr);
-
-    // flags
+    // flags (don’t create flags if blank)
     const flags = [];
-    if(bonus && (q <= 3) && Number.isFinite(tleftMin) && tleftMin > 6){
-      flags.push({t:'Early bonus = foul risk', c:'bad'});
-    } else if(bonus){
-      flags.push({t:'Bonus/whistles on', c:'warn'});
-    }
-    if(ftparade) flags.push({t:'FT parade', c:'bad'});
+    const tpct = optNum('tpct');
+    const fta = optNum('fta');
 
-    const fta = Number($('fta').value);
+    if(Number.isFinite(tpct)){
+      if(tpct >= 0.42) flags.push({t:`3P% hot (${fmt(tpct*100,1)}%)`, c:'warn'});
+      else if(tpct <= 0.31) flags.push({t:`3P% cold (${fmt(tpct*100,1)}%)`, c:'warn'});
+      else flags.push({t:`3P% normal (${fmt(tpct*100,1)}%)`, c:'good'});
+    }
     if(Number.isFinite(fta) && valid){
       const ftaPerMin = fta/elapsed;
       if(ftaPerMin >= 1.1) flags.push({t:`High FT rate (${fmt(ftaPerMin,2)}/min)`, c:'bad'});
@@ -554,72 +336,18 @@
       else flags.push({t:`FT rate ok (${fmt(ftaPerMin,2)}/min)`, c:'good'});
     }
 
-    const tpct = Number($('tpct').value);
-    if(Number.isFinite(tpct)){
-      if(tpct >= 0.42) flags.push({t:`3P% hot (${fmt(tpct*100,1)}%)`, c:'warn'});
-      else if(tpct <= 0.31) flags.push({t:`3P% cold (${fmt(tpct*100,1)}%)`, c:'warn'});
-      else flags.push({t:`3P% normal (${fmt(tpct*100,1)}%)`, c:'good'});
-    }
-
-    if(otOn) flags.push({t:`OT adj +${fmt(otAdj,1)} pts`, c:'warn'});
-
-    // game lean
-    let lean = 'PASS / WAIT';
+    // lean
+    let leanText = 'PASS / WAIT';
     let leanClass = 'warn';
-    let why = 'Enter valid game state inputs.';
-
+    let why = 'Edge inside threshold.';
     if(Number.isFinite(edge) && Number.isFinite(thr)){
-      if(edge >= thr){
-        lean = 'LEAN: OVER';
-        leanClass = 'good';
-        why = `Model proj ${fmt(blendProj,1)} is +${fmt(edge,1)} vs live ${fmt(live,1)} (≥ ${fmt(thr,1)} edge).`;
-      } else if(edge <= -thr){
-        lean = 'LEAN: UNDER';
-        leanClass = 'good';
-        why = `Model proj ${fmt(blendProj,1)} is ${fmt(edge,1)} vs live ${fmt(live,1)} (≤ -${fmt(thr,1)} edge).`;
-      } else {
-        lean = 'PASS / WAIT';
-        leanClass = 'warn';
-        why = `Edge ${fmt(edge,1)} is inside your threshold (±${fmt(thr,1)}).`;
-      }
-
-      const badCount = flags.filter(f=>f.c==='bad').length;
-      if(badCount >= 2){
-        leanClass = 'bad';
-        why += ' Warning: multiple high-risk flags (refs/FT/pace volatility).';
-      } else if(badCount === 1 && leanClass === 'good'){
-        leanClass = 'warn';
-        why += ' Note: one high-risk flag could swing totals fast.';
-      }
+      if(edge >= thr){ leanText='OVER'; leanClass='good'; why='Model > market by threshold.'; }
+      else if(edge <= -thr){ leanText='UNDER'; leanClass='good'; why='Model < market by threshold.'; }
     }
-
-    // outputs
-    $('stamp').textContent = nowStamp();
-    $('elapsed').textContent = valid ? `${fmt(elapsed,2)} min` : '—';
-    $('alphaUsed').textContent = `Alpha used: ${fmt(alpha,2)}${alphaIsManual ? ' (manual)' : ' (auto)'}`;
-    $('ppm').textContent = valid ? `${fmt(ppm,2)}` : '—';
-    $('needppm').textContent = Number.isFinite(needPPM) ? `Needed for live ${fmt(live,1)}: ${fmt(needPPM,2)} pts/min` : 'Needed for market: —';
-    $('paceProj').textContent = Number.isFinite(paceProj) ? `${fmt(paceProj,1)}` : '—';
-    $('blendProj').textContent = Number.isFinite(blendProj) ? `${fmt(blendProj,1)}` : '—';
-    $('edge').textContent = Number.isFinite(edge) ? `Edge vs live: ${fmt(edge,1)} pts` : 'Edge vs live: —';
-
-    $('homeProj').textContent = Number.isFinite(homeProj) ? fmt(homeProj,1) : '—';
-    $('awayProj').textContent = Number.isFinite(awayProj) ? fmt(awayProj,1) : '—';
-
-    $('homeEdge').textContent = Number.isFinite(homeEdgeVal)
-      ? `Home edge vs team total: ${fmt(homeEdgeVal,1)} pts (${homeLean})`
-      : 'Home edge vs team total: —';
-
-    $('awayEdge').textContent = Number.isFinite(awayEdgeVal)
-      ? `Away edge vs team total: ${fmt(awayEdgeVal,1)} pts (${awayLean})`
-      : 'Away edge vs team total: —';
-
-    $('teamLeans').textContent = `Home team total lean: ${homeLean} • Away team total lean: ${awayLean}`;
-
     const lb = $('leanBox');
     lb.classList.remove('good','warn','bad');
     lb.classList.add(leanClass);
-    $('lean').textContent = (lean === 'PASS / WAIT') ? 'PASS / WAIT' : lean.replace('LEAN: ','');
+    $('lean').textContent = leanText;
     $('why').textContent = why;
 
     const flagsEl = $('flags');
@@ -637,172 +365,11 @@
         flagsEl.appendChild(d);
       });
     }
-
-    hedgeCalc({liveTotal: live, flags});
-
-    if($('autoSnap').checked){
-      snapshot({
-        q, tleft, homePts, awayPts, live,
-        homeLine: Number.isFinite(homeLine)?homeLine:'', awayLine: Number.isFinite(awayLine)?awayLine:'',
-        blendProj, edge, lean: ((lean === 'PASS / WAIT') ? 'PASS' : lean.replace('LEAN: ',''))
-      });
-    }
-
-    return {q, tleft, homePts, awayPts, live, homeLine, awayLine, blendProj, edge, lean};
   }
 
-  function snapshot(state){
-    const tbody = $('log').querySelector('tbody');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="mono">${nowStamp()}</td>
-      <td class="right">${state.q}</td>
-      <td class="right mono">${state.tleft}</td>
-      <td class="right mono">${Number.isFinite(state.homePts)?state.homePts:''}</td>
-      <td class="right mono">${Number.isFinite(state.awayPts)?state.awayPts:''}</td>
-      <td class="right mono">${fmt(state.live,1)}</td>
-      <td class="right mono">${Number.isFinite(state.homeLine)?fmt(state.homeLine,1):''}</td>
-      <td class="right mono">${Number.isFinite(state.awayLine)?fmt(state.awayLine,1):''}</td>
-      <td class="right mono">${fmt(state.blendProj,1)}</td>
-      <td class="right mono">${fmt(state.edge,1)}</td>
-      <td>${state.lean}</td>
-    `;
-    tbody.prepend(tr);
-  }
-
-  function hedgeCalc(ctx){
-    const liveTotal = Number.isFinite(ctx?.liveTotal) ? ctx.liveTotal : Number($('live').value);
-
-    const mySide = $('mySide').value;
-    const myLine = Number($('myLine').value);
-    const myStake = Number($('myStake').value);
-    const myOdds = Number($('myOdds').value);
-
-    let hLine = Number($('hedgeLine').value);
-    if(!Number.isFinite(hLine)) hLine = liveTotal;
-
-    const hOdds = Number($('hedgeOdds').value);
-
-    const dec0 = decFromAmerican(myOdds);
-    const decH = decFromAmerican(hOdds);
-
-    let suggestion = '—';
-    let hStake = NaN;
-    let explain = '';
-
-    const clv = (mySide === 'UNDER') ? (myLine - liveTotal) : (liveTotal - myLine);
-
-    const badFlags = (ctx?.flags || []).filter(f=>f.c==='bad').length;
-    const warnFlags = (ctx?.flags || []).filter(f=>f.c==='warn').length;
-
-    if(Number.isFinite(clv) && clv >= 6 && (badFlags>=1 || warnFlags>=2)){
-      suggestion = 'Consider SMALL hedge';
-    } else if(Number.isFinite(clv) && clv >= 6){
-      suggestion = 'Hold (good CLV)';
-    } else if(Number.isFinite(clv) && clv >= 3 && badFlags>=1){
-      suggestion = 'Watch closely (foul/FT risk)';
-    } else {
-      suggestion = 'No hedge signal';
-    }
-
-    if(Number.isFinite(dec0) && Number.isFinite(decH) && Number.isFinite(myStake) && myStake>0){
-      hStake = myStake * dec0 / decH;
-
-      let middle = '';
-      if(mySide === 'UNDER'){
-        if(Number.isFinite(myLine) && Number.isFinite(hLine) && hLine < myLine){
-          middle = `Middle range (both win): ${fmt(hLine,1)} to ${fmt(myLine,1)} (excluding pushes).`;
-        } else {
-          middle = `Hedge reduces variance, but no classic middle (hedge line not below your under line).`;
-        }
-      } else {
-        if(Number.isFinite(myLine) && Number.isFinite(hLine) && hLine > myLine){
-          middle = `Middle range (both win): ${fmt(myLine,1)} to ${fmt(hLine,1)} (excluding pushes).`;
-        } else {
-          middle = `Hedge reduces variance, but no classic middle (hedge line not above your over line).`;
-        }
-      }
-
-      const win0 = myStake*(dec0-1);
-      const lose0 = -myStake;
-      const winH = hStake*(decH-1);
-      const loseH = -hStake;
-
-      const worst = Math.min(win0 + loseH, lose0 + winH);
-      const best = win0 + winH;
-
-      explain = `Equalized hedge stake ≈ $${fmt(hStake,2)} (assumes opposite-side hedge at ${fmt(hLine,1)}).\n` +
-                `${middle}\n` +
-                `Approx worst-case profit (ignoring pushes): $${fmt(worst,2)}. Best-case (middle hits): $${fmt(best,2)}.`;
-    } else {
-      explain = 'Enter valid stake and American odds to compute hedge sizing.';
-    }
-
-    $('hedgeNow').value = suggestion;
-    $('hedgeStake').value = Number.isFinite(hStake) ? fmt(hStake,2) : '—';
-    $('hedgeExplain').textContent = explain;
-  }
-
-  function downloadSnapshotsCSV(){
-    const rows = [];
-    rows.push(["Time","Q","T Left","Home","Away","Live","HomeLine","AwayLine","Blend","Edge","Lean"]);
-
-    const tbody = $('log').querySelector('tbody');
-    const trs = Array.from(tbody.querySelectorAll('tr'));
-    trs.reverse().forEach(tr => {
-      const tds = Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim());
-      rows.push(tds);
-    });
-
-    const csv = rows.map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
-    const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `nba_snapshots_${new Date().toISOString().slice(0,19).replaceAll(':','-')}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function resetAll(){
-    $('q').value = '1';
-    $('tleft').value = '12:00';
-    $('homePts').value = '0';
-    $('awayPts').value = '0';
-    $('live').value = '0';
-    $('homeLine').value = '';
-    $('awayLine').value = '';
-    $('line').value = '0';
-    $('thr').value = '4';
-    $('alpha').value = '';
-    $('bonusBoost').value = '0.25';
-    $('bonus').checked = false;
-    $('ftparade').checked = false;
-    $('fta').value = '';
-    $('tpct').value = '';
-    $('ot').checked = false;
-    $('otp').value = '6';
-    $('otpts').value = '10';
-    $('autoSnap').checked = false;
-
-    $('mySide').value = 'UNDER';
-    $('myLine').value = '228.5';
-    $('myStake').value = '100';
-    $('myOdds').value = '-110';
-    $('hedgeLine').value = '';
-    $('hedgeOdds').value = '-110';
-
-    $('log').querySelector('tbody').innerHTML = '';
-    compute();
-  }
-
-  // ---------- Auto-Fill (Worker) ----------
+  // ---- Worker auto-fill ----
   async function apiGet(path){
-    const base = document.getElementById('apiBase').value.trim().replace(/\/+$/,'');
-    if(!base) throw new Error("Worker URL is blank.");
+    const base = $('apiBase').value.trim().replace(/\/+$/,'');
     const r = await fetch(base + path);
     const txt = await r.text();
     if(!r.ok) throw new Error(txt);
@@ -812,87 +379,81 @@
   let lastApi = null;
 
   function populateGames(games){
-    const sel = document.getElementById('gameSel');
+    const sel = $('gameSel');
     sel.innerHTML = '';
     for(const g of (games || [])){
-      const hs = Number.isFinite(g.scores?.home) ? g.scores.home : '—';
-      const as = Number.isFinite(g.scores?.away) ? g.scores.away : '—';
-      const p = Number.isFinite(g.period) && g.period > 0 ? `Q${g.period}` : '';
-      const c = (g.displayClock && String(g.displayClock).includes(':')) ? g.displayClock : '';
       const total = Number.isFinite(g.totals_consensus) ? `Tot ${g.totals_consensus}` : '';
       const opt = document.createElement('option');
       opt.value = g.id;
-      opt.textContent = `${g.away_team} @ ${g.home_team}  (${as}-${hs}) ${p} ${c} ${total}`.trim();
+      opt.textContent = `${g.away_team} @ ${g.home_team}  ${total}`.trim();
       sel.appendChild(opt);
     }
   }
 
-  document.getElementById('apiRefresh').addEventListener('click', async () => {
+  $('apiRefresh').addEventListener('click', async () => {
     try{
       lastApi = await apiGet('/nba/live');
       populateGames(lastApi.games);
-    } catch(e){
-      alert("API Refresh error: " + e.message);
-    }
+    } catch(e){ alert("Refresh error: " + e.message); }
   });
 
-  document.getElementById('apiFillAll').addEventListener('click', async () => {
+  $('apiFillAll').addEventListener('click', async () => {
     try{
       if(!lastApi) lastApi = await apiGet('/nba/live');
-      const id = document.getElementById('gameSel').value;
+      const id = $('gameSel').value;
       const g = (lastApi.games || []).find(x => x.id === id);
       if(!g) return;
 
-      // Always fill total if available
-      if(Number.isFinite(g.totals_consensus)) document.getElementById('live').value = g.totals_consensus;
+      // Always fill market total
+      if(Number.isFinite(g.totals_consensus)) {
+        $('live').value = g.totals_consensus;
 
-      // Fill scores if ESPN has them
-      if(Number.isFinite(g.scores?.home)) document.getElementById('homePts').value = g.scores.home;
-      if(Number.isFinite(g.scores?.away)) document.getElementById('awayPts').value = g.scores.away;
+        // ✅ FIX: Auto-set baseline to market BEFORE TIP
+        if (g.state === "pre") {
+          $('line').value = g.totals_consensus;
+        }
+      }
 
-      // Only fill quarter+clock if in-progress and clock looks like mm:ss
+      // Only overwrite score/clock when in-progress
+      if(Number.isFinite(g.scores?.home)) $('homePts').value = g.scores.home;
+      if(Number.isFinite(g.scores?.away)) $('awayPts').value = g.scores.away;
+
       if(g.state === "in" && Number.isFinite(g.period) && g.period >= 1 && g.displayClock && String(g.displayClock).includes(':')) {
-        const q = Math.max(1, Math.min(4, g.period)); // OT handled by OT toggle
-        document.getElementById('q').value = String(q);
-        document.getElementById('tleft').value = g.displayClock;
+        const q = Math.max(1, Math.min(4, g.period));
+        $('q').value = String(q);
+        $('tleft').value = g.displayClock;
       }
 
       compute();
-    } catch(e){
-      alert("API Fill error: " + e.message);
-    }
-  });
-  // ---------- End Auto-Fill ----------
-
-  $('calc').addEventListener('click', () => compute());
-  $('snap').addEventListener('click', () => {
-    const s = compute();
-    snapshot({
-      q: s.q,
-      tleft: s.tleft,
-      homePts: Number($('homePts').value),
-      awayPts: Number($('awayPts').value),
-      live: Number($('live').value),
-      homeLine: Number($('homeLine').value),
-      awayLine: Number($('awayLine').value),
-      blendProj: s.blendProj,
-      edge: s.edge,
-      lean: (s.lean === 'PASS / WAIT') ? 'PASS' : s.lean.replace('LEAN: ','')
-    });
-  });
-  $('reset').addEventListener('click', () => resetAll());
-  $('exportCsv').addEventListener('click', downloadSnapshotsCSV);
-
-  [
-    'q','tleft','homePts','awayPts','live','homeLine','awayLine','line','thr','alpha',
-    'bonusBoost','bonus','ftparade','fta','tpct','ot','otp','otpts',
-    'mySide','myLine','myStake','myOdds','hedgeLine','hedgeOdds'
-  ].forEach(id=>{
-    $(id).addEventListener('input', () => compute());
-    $(id).addEventListener('change', () => compute());
+    } catch(e){ alert("Fill error: " + e.message); }
   });
 
-  $('stamp').textContent = nowStamp();
+  $('apiStats').addEventListener('click', async () => {
+    try{
+      if(!lastApi) lastApi = await apiGet('/nba/live');
+      const id = $('gameSel').value;
+      const g = (lastApi.games || []).find(x => x.id === id);
+      if(!g) return;
+
+      if(!g.espn_event_id){
+        alert("No ESPN event id for this game yet. Click Refresh again.");
+        return;
+      }
+
+      const stats = await apiGet(`/nba/stats?event=${encodeURIComponent(g.espn_event_id)}`);
+
+      // ✅ only set if ESPN has real data
+      if(Number.isFinite(stats.three_pct)) $('tpct').value = stats.three_pct.toFixed(2);
+      if(Number.isFinite(stats.fta_total) && stats.fta_total > 0) $('fta').value = stats.fta_total;
+
+      compute();
+    } catch(e){ alert("Stats error: " + e.message); }
+  });
+
+  $('calc').addEventListener('click', compute);
+  ['q','tleft','homePts','awayPts','live','line','thr','alpha','bonusBoost','bonus','ftparade','fta','tpct']
+    .forEach(id => { $(id).addEventListener('input', compute); $(id).addEventListener('change', compute); });
+
   compute();
 </script>
 </body>
